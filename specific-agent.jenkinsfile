@@ -1,0 +1,29 @@
+pipeline {
+  agent none
+  stages {
+    stage('First Stage') {
+      agent { label 'default-jnlp' }
+      steps {
+        echo 'Hello World! from first stage, default-jnlp'   
+        sh 'java -version'
+      }
+    }
+    stage('Second Stage') {
+      agent { label 'nodejs-app' }
+      steps {
+        echo 'Hello World! from second stage, nodejs-app'   
+        sh 'java -version'
+        container ('nodejs') {
+            sh 'node --version'
+        }
+      }
+    }    
+    stage('Third Stage') {
+      agent { label 'jenkins-agent' }
+      steps {
+        echo 'Hello World! from third stage, jenkins-agent'   
+        sh 'date'
+      }
+    }    
+  }
+}
